@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Servidores do Curso – CECIA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --cecia-red: #8b0000;
+  --text: #222;
+  --blue1: #007cf0;
+  --blue2: #00dfd8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, Arial, sans-serif;
+  background: #fff;
+  color: var(--text);
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--cecia-red);
+  padding: 18px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.header-inner {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+.header img { height: 90px; }
+
+.title { text-align: center; }
+
+.course {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--blue1), var(--blue2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cecia {
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.ufsj {
+  font-size: 14px;
+  color: #eee;
+}
+
+/* ===== CONTEÚDO ===== */
+.main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.datas {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+.lista div {
+  padding: 4px 0;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 60px 0 30px;
+}
+</style>
+</head>
+
+<body>
+
+<a href="https://cecia.ufsj.edu.br/" style="text-decoration:none; color:inherit;">
+  <div class="header">
+    <div class="header-inner">
+      <img src="https://cecia.ufsj.edu.br/assets/logo-ufsj-D8UfR3Y2.png" alt="UFSJ">
+
+      <div class="title">
+        <div class="course">Engenharia da Computação e Inteligência Artificial</div>
+        <div class="cecia">CECIA</div>
+        <div class="ufsj">Universidade Federal de São João del-Rei – UFSJ</div>
+      </div>
+
+      <img src="https://cecia.ufsj.edu.br/assets/mascote-labs-XYBaCOvj.png" alt="CECIA">
+    </div>
+  </div>
+</a>
+
+<div class="main">
+
+
+<div class="main">
+
+<!-- ===== AVISO ===== -->
+<div style="
+  background:#fff3cd;
+  border:1px solid #ffeeba;
+  color:#856404;
+  padding:14px 18px;
+  border-radius:8px;
+  margin-bottom:30px;
+  font-weight:600;
+  text-align:center;
+">
+⚠️ <strong>Em construção – sem valor legal</strong>
+</div>
+
+
+
+<h2>Servidores do Curso</h2>
+
+<div class="datas">
+Os <strong>servidores tecnico-administrativos</strong> que atuam na
+<strong>Secretaria do Curso de Engenharia da Computacao e Inteligencia Artificial</strong>,
+no setor <strong>Secretaria Integrada dos Cursos de Graduacao (SIGRA)</strong> do
+<strong>Campus Alto Paraopeba/UFSJ</strong>, sao:
+</div>
+
+<div id="tecnicos" class="datas lista">
+Carregando servidores tecnico-administrativos...
+</div>
+
+<div class="datas">
+<strong>☎ Telefones:</strong><br>
+(31) 3749-7314<br>
+(31) 3749-7317<br><br>
+
+<strong>✉ E-mails:</strong><br>
+secintcoord@ufsj.edu.br<br>
+ou<br>
+cecia@ufsj.edu.br
+</div>
+
+<hr>
+
+<div class="datas">
+Os <strong>servidores docentes</strong> que atuam na
+<strong> Colegiado do Curso de Engenharia da Computacao e Inteligencia Artificial</strong>
+sao:
+</div>
+
+<div id="docentes" class="datas lista">
+Carregando docentes do colegiado...
+</div>
+
+</div>
+
+<!-- ================= TECNICO-ADMINISTRATIVOS ================= -->
+<script>
+const CSV_TECNICOS =
+  "https://docs.google.com/spreadsheets/d/1RAFae83eKZ4mgIxBEjBPkgxbSlwSRfElasSci9Gh_aI/export?format=csv";
+
+async function carregarTecnicos() {
+  const div = document.getElementById("tecnicos");
+  const r = await fetch(CSV_TECNICOS);
+  const t = (await r.text()).replace(/^\uFEFF/, "");
+  const linhas = t.split(/\r?\n/).slice(1);
+
+  let html = "";
+  linhas.forEach(l => {
+    const nome = l.split(",")[0]?.replace(/"/g,"").trim();
+    if (nome) html += `<div>• ${nome}</div>`;
+  });
+
+  div.innerHTML = html || "Nenhum servidor cadastrado.";
+}
+
+carregarTecnicos();
+</script>
+
+<!-- ================= DOCENTES COLEGIADO ================= -->
+<script>
+const CSV_COLEGIADO =
+  "https://docs.google.com/spreadsheets/d/1rEshku4z6nJjTIae9gq28wIoIfHu3LwbdwS2HGFfxrY/export?format=csv&sheet=Integrantes";
+
+async function carregarDocentes() {
+  const div = document.getElementById("docentes");
+  const r = await fetch(CSV_COLEGIADO);
+  const t = (await r.text()).replace(/^\uFEFF/, "");
+  const linhas = t.split(/\r?\n/).slice(1);
+
+  let html = "";
+  linhas.forEach(l => {
+    const c = l.split(",");
+    const atribuicao = c[0]?.replace(/"/g,"").trim();
+    const nome = c[1]?.replace(/"/g,"").trim();
+    if (atribuicao && nome) {
+      html += `<div><strong>${atribuicao}:</strong> ${nome}</div>`;
+    }
+  });
+
+  div.innerHTML = html || "Nenhum docente cadastrado.";
+}
+
+carregarDocentes();
+</script>
+
+<!-- ================= DATA DE ATUALIZACAO (GOOGLE DOC) ================= -->
+<script>
+const DOC_DATA_ATUALIZACAO =
+  "https://docs.google.com/document/d/1rqa1h53Z1gwpEhMgaB3OxZwAVaf6SUk0/export?format=txt";
+
+async function carregarDataAtualizacao() {
+  try {
+    const res = await fetch(DOC_DATA_ATUALIZACAO);
+    let texto = (await res.text()).trim();
+    texto = texto.split(/\r?\n/).filter(l => l.trim()).join(" ");
+    document.getElementById("data-atualizacao").innerHTML =
+      "<strong>Última atualização:</strong> " + texto;
+  } catch {
+    document.getElementById("data-atualizacao").textContent =
+      "Última atualização: informação indisponível.";
+  }
+}
+
+carregarDataAtualizacao();
+</script>
+
+<div class="footer">
+Página institucional mantida pela Coordenação do Curso – CECIA / UFSJ.<br>
+<span id="data-atualizacao">Carregando data da última atualização...</span>
+</div>
+
+</body>
+</html>
